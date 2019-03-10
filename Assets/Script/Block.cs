@@ -18,9 +18,14 @@ public class Block : MonoBehaviour {
     //State variables
     [SerializeField] int timeHits; // only serialized for debug purpose
 
-    private void Start()
+    private void Awake()
     {
         CountBreakableBlocks();
+    }
+
+    private void Start()
+    {
+
         gamesession = FindObjectOfType<GameSession>();
     }
 
@@ -88,7 +93,7 @@ public class Block : MonoBehaviour {
 
     private void PlayBlockDestroySFX()
     {
-        gamesession.AddToScore();
+        gamesession.DamageToBoss();
         AudioSource.PlayClipAtPoint(breakBlockSound, Camera.main.transform.position);
     }
 

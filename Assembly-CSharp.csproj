@@ -65,6 +65,7 @@
     <Compile Include="Assets\Script\Block.cs" />
     <Compile Include="Assets\Script\GameSession.cs" />
     <Compile Include="Assets\Script\Level.cs" />
+    <Compile Include="Assets\Script\Life.cs" />
     <Compile Include="Assets\Script\LoseCollider.cs" />
     <Compile Include="Assets\Script\Paddle.cs" />
     <Compile Include="Assets\Script\SceneLoader.cs" />

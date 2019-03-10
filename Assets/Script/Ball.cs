@@ -6,12 +6,12 @@ public class Ball : MonoBehaviour {
     //config parameters
     [SerializeField] Paddle paddle1;
     [SerializeField] float xPush = 2f, yPush = 10f;
-    [SerializeField] AudioClip clikcSound;
+    [SerializeField] AudioClip clickSound;
     [SerializeField] float randomFactor = 0.2f;
 
     // state
     Vector2 paddleToBallVector;
-    bool hasClicked = false;
+    public bool hasClicked = false;
 
 
     //Cache component references
@@ -28,7 +28,8 @@ public class Ball : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (!hasClicked){
+        if (!hasClicked)
+        {
             LockBallToPaddle();
             LaunchOnMouseClick();
         }
@@ -47,7 +48,7 @@ public class Ball : MonoBehaviour {
         {
             hasClicked = true;
 
-            myAudioSource.PlayOneShot(clikcSound);
+            myAudioSource.PlayOneShot(clickSound);
             myRigidBody2D.velocity = new Vector2(xPush, yPush);
 
         }

@@ -6,17 +6,36 @@ using TMPro;
 public class GameSession : MonoBehaviour {
     //config parameters
     [Range(0.1f,10f)][SerializeField] float gameSpeed = 0.7f;
-    [SerializeField] int pointPerBlockDestroyed = 100;
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] int HpPerBlockDestroyed = 10;
+    [SerializeField] TextMeshProUGUI bossCurrentHp;
+    [SerializeField] TextMeshProUGUI bossMaxHp;
     [SerializeField] bool isAutoPlayEnabled;
 
-    //state variables
-    [SerializeField] int currentScore = 0;
+    //State varible
+    [SerializeField] int currentHp = 0;
+
+    //Cache reference
+    Level myLevel;
+    Life myLife;
 
     private void Awake()
     {
-        int gameStatusCount = FindObjectsOfType<GameSession>().Length;
-        if(gameStatusCount>1)
+        //For accumulate life status (InTest)
+        /*myLife = FindObjectOfType<Life>();
+        int lifeCount = FindObjectsOfType<Life>().Length;
+        if (lifeCount > 1)
+        {
+            myLife.gameObject.SetActive(false);
+            Destroy(myLife.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(myLife.gameObject);
+        }*/
+
+        //For accumulate all status
+        /*int gameStatusCount = FindObjectsOfType<GameSession>().Length;
+        if (gameStatusCount>1)
         {
             gameObject.SetActive(false);
             Destroy(gameObject);
@@ -24,26 +43,35 @@ public class GameSession : MonoBehaviour {
         else
         {
             DontDestroyOnLoad(gameObject);
-        }
+        }*/
     }
 
     // Use this for initialization
-    void Start() 
+    public int Start() 
     {
-        scoreText.text = currentScore.ToString();
+        myLevel = FindObjectOfType<Level>();
+        currentHp = myLevel.breakableBlocks* HpPerBlockDestroyed;
+        bossCurrentHp.text = (myLevel.breakableBlocks* HpPerBlockDestroyed).ToString();
+        bossMaxHp.text = (myLevel.breakableBlocks* HpPerBlockDestroyed).ToString();
+        return currentHp;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         Time.timeScale = gameSpeed;
 
-	}
-
-    public void AddToScore()
-    {
-        currentScore += pointPerBlockDestroyed;
-        scoreText.text = currentScore.ToString();
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
     }
+
+    public void DamageToBoss()
+    {
+        currentHp -= HpPerBlockDestroyed;
+        bossCurrentHp.text = currentHp.ToString();
+    }
+
 
     public void ResetGame()
     {
